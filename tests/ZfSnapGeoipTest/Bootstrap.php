@@ -47,7 +47,7 @@ class Bootstrap
 
         $applicationConfig = ArrayUtils::merge($baseConfig, $testConfig);
 
-        $serviceManager = new ServiceManager(new ServiceManagerConfig());
+        $serviceManager = new ServiceManager((new ServiceManagerConfig())->toArray());
         $serviceManager->setService('ApplicationConfig', $applicationConfig);
         $serviceManager->get('ModuleManager')->loadModules();
 

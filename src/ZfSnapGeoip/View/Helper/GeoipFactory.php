@@ -1,27 +1,26 @@
 <?php
 
-namespace ZfSnapGeoip;
+namespace ZfSnapGeoip\View\Helper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Interop\Container\ContainerInterface;
+use ZfSnapGeoip\Service\Geoip as GeoipService;
 
 /**
- * Factory of DatabaseConfig
+ * Factory of ZfSnapGeoip\View\Helper\Geoip
  *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class DatabaseConfigFactory implements FactoryInterface
+class GeoipFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $container->get('config');
-        $data = $config['maxmind']['database'];
-
-        return new DatabaseConfig($data);
+        $geoipService = $container->get(GeoipService::class);
+        return new $requestedName($geoipService);
     }
     
     /**
@@ -29,6 +28,6 @@ class DatabaseConfigFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $this($serviceLocator, DatabaseConfig::class);
+        return $this($serviceLocator, GeoipService::class);
     }
 }

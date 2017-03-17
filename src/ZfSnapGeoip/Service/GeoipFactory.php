@@ -2,12 +2,30 @@
 
 namespace ZfSnapGeoip\Service;
 
-use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 
-class GeoipFactory
+/**
+ * Factory of ZfSnapGeoip\View\Helper\Geoip
+ *
+ * @author Witold Wasiczko <witold@wasiczko.pl>
+ */
+class GeoipFactory implements FactoryInterface
 {
-    public function __invoke(ServiceManager $serviceManager)
+    /**
+     * {@inheritDoc}
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new Geoip($serviceManager);
+        return new $requestedName($container);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, GeoipService::class);
     }
 }

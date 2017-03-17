@@ -4,17 +4,20 @@ namespace ZfSnapGeoip;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 use Zend\Http\Client;
 
 class HttpClientFactory implements FactoryInterface
 {
-
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    /**
+     * {@inheritDoc}
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /* @var $adapter Zend\Http\Client\Adapter\AdapterInterface */
-        $adapter = $serviceLocator->get('ZfSnapGeoip\HttpClient\Adapter');
+        $adapter = $container->get('ZfSnapGeoip\HttpClient\Adapter');
 
-        $config = $serviceLocator->get('config');
+        $config = $container->get('config');
         $options = $config['maxmind']['http_client']['options'];
 
         $client = new Client();
@@ -23,5 +26,12 @@ class HttpClientFactory implements FactoryInterface
 
         return $client;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, Client::class);
+    }
 }

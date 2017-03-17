@@ -133,6 +133,7 @@ class Geoip implements EventManagerAwareInterface
         /* @var $record RecordInterface */
 
         if (!$record instanceof RecordInterface) {
+            var_dump(get_class($record));
             throw new DomainException('Incorrect record implementation');
         }
 
@@ -207,7 +208,7 @@ class Geoip implements EventManagerAwareInterface
     {
         if ($this->config === null) {
             /* @var $config DatabaseConfig */
-            $config = $this->serviceManager->get('ZfSnapGeoip\DatabaseConfig');
+            $config = $this->serviceManager->get(DatabaseConfig::class);
             $this->config = $config;
         }
         return $this->config;

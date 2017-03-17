@@ -4,7 +4,9 @@ define('ZF2_PATH', __DIR__ . '/../vendor/zendframework/zendframework/library');
 
 return array(
     'modules' => array(
-        'ZfSnapGeoip',
+    	'Zend\Router',
+    	'Zend\Filter',
+        'ZfSnapGeoip'
     ),
     'module_listener_options' => array(
         'config_glob_paths' => array(

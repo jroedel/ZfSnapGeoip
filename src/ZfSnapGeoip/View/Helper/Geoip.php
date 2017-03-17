@@ -3,15 +3,14 @@
 namespace ZfSnapGeoip\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use ZfSnapGeoip\Service\Geoip as GeoipService;
 
 /**
  * Geoip view helper
  *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class Geoip extends AbstractHelper implements ServiceLocatorAwareInterface
+class Geoip extends AbstractHelper
 {
     /**
      * @var \ZfSnapGeoip\Service\Geoip
@@ -19,17 +18,21 @@ class Geoip extends AbstractHelper implements ServiceLocatorAwareInterface
     private $geoip;
 
     /**
-     * @var \Zend\View\HelperPluginManager
+     * Geoip view helper constructor.
+     * @param GeoipService $geoip
      */
-    private $serviceLocator;
-
+    public function __construct(GeoipService $geoip)
+    {
+        $this->geoip = $geoip;
+    }
+    
     /**
      * @param string $ipAddress
      * @return \ZfSnapGeoip\Service\Geoip
      */
     public function __invoke($ipAddress = null)
     {
-        return $this->getGeoip()->getRecord($ipAddress);
+        return $this->geoip->getRecord($ipAddress);
     }
 
     /**
@@ -37,34 +40,6 @@ class Geoip extends AbstractHelper implements ServiceLocatorAwareInterface
      */
     public function __toString()
     {
-        return (string) $this->getGeoip()->getRecord();
+        return (string) $this->geoip->getRecord();
     }
-
-    /**
-     * @return \ZfSnapGeoip\Service\Geoip
-     */
-    private function getGeoip()
-    {
-        if (!$this->geoip) {
-            $this->geoip = $this->getServiceLocator()->getServiceLocator()->get('Geoip');
-        }
-        return $this->geoip;
-    }
-
-    /**
-     * @return \Zend\View\HelperPluginManager
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
-
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
-
 }
