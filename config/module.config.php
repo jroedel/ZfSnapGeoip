@@ -55,7 +55,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\Console::class => Controller\ConsoleControllerFactory::class,
+            Controller\ConsoleController::class => Controller\ConsoleControllerFactory::class,
         ],
     ],
     'console' => [
@@ -65,7 +65,7 @@ return [
                     'options' => [
                         'route' => ZfSnapGeoip\Module::CONSOLE_GEOIP_DOWNLOAD,
                         'defaults' => [
-                            'controller' => Controller\Console::class,
+                            'controller' => Controller\ConsoleController::class,
                             'action' => 'download',
                         ],
                     ],
