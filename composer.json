@@ -1,6 +1,6 @@
 {
-    "name": "snapshotpl/zf-snap-geoip",
-    "description": "MaxMind GeoIP Module for Zend Framework 2",
+    "name": "jroedel/zf-snap-geoip",
+    "description": "MaxMind GeoIP Module for Zend Framework 3",
     "license": "BSD-3-Clause",
     "keywords": [
         "geoip",
